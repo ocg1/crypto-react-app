@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
-import { Switch, Router, withRouter } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import Login from '../Login';
-import Dashboard from '../Dashboard';
-import PrivateRoute from '../PrivateRoute';
 
-class AppRouter extends Component {
-  render() {
-    return (
-      <Switch>
-        <Route path="/" exact component={Login} />
-        <PrivateRoute path="/dashboard" component={Dashboard} />
-      </Switch>
-    );
-  }
-}
+const appRouter = () => (
+  <main>
+    <Switch>
+      <Route path="/" exact component={Login} />
+    </Switch>
+  </main>
+);
 
-export default withRouter(AppRouter);
+export default withRouter(appRouter);
