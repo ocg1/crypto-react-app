@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { Error } from '../Login/Login.styles'
+
 const FieldWrapper = styled.div`
   position: relative;
 
@@ -31,10 +33,6 @@ const FieldWrapper = styled.div`
 const FieldIcon = styled.span`
   background-image: url(${({ url }) => url});
 `;
-
-const Error = styled.p`
-  font-weight: bolder;
-`
 
 const customField = ({ input, type, placeholder, iconUrl, meta }) => {
   return <FieldWrapper>

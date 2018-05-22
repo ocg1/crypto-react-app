@@ -76,4 +76,8 @@ const SubmitButton = styled.button`
   width: 100%;
 `;
 
-export { LoginContainer, LoginWrapper, FormContainer, FormWrapper, SubmitButton }
+const Error = styled.p`
+  font-weight: bolder;
+`;
+
+export { LoginContainer, LoginWrapper, FormContainer, FormWrapper, SubmitButton, Error }

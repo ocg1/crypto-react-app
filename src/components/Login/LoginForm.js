@@ -12,12 +12,15 @@ import {
   FormContainer,
   FormWrapper,
   SubmitButton,
+  Error
 } from './Login.styles';
 
 export default class LoginForm extends PureComponent {
   static propTypes = {
     handleValidate: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    // errors: PropTypes.string,
+    isFailed: PropTypes.bool
   };
 
   state = {
@@ -30,6 +33,13 @@ export default class LoginForm extends PureComponent {
 
     this.setState(({ isLogIn }) => ({ isLogIn: !isLogIn }));
   };
+
+  handleSubmit = values => {
+    const { isLogIn } = this.state
+    const { handleSubmit } = this.props
+
+    handleSubmit({...values, isLogIn})
+  }
 
   authorizeMessage = () => {
     const { isLogIn } = this.state;
@@ -56,7 +66,7 @@ export default class LoginForm extends PureComponent {
   };
 
   render() {
-    const { handleSubmit, handleValidate } = this.props;
+    const { handleValidate, errors, isFailed } = this.props;
     const { isLogIn } = this.state;
 
     return (
@@ -66,7 +76,7 @@ export default class LoginForm extends PureComponent {
           <FormContainer>
             <FormWrapper>
               <Form
-                onSubmit={handleSubmit}
+                onSubmit={this.handleSubmit}
                 validate={handleValidate}
                 render={({ handleSubmit, pristine, invalid, ...props }) => (
                   <form onSubmit={handleSubmit}>
@@ -84,6 +94,7 @@ export default class LoginForm extends PureComponent {
                       type="password"
                       iconUrl={LockIcon}
                     />
+                    <Error>{ isFailed && errors }</Error>
                     <SubmitButton disabled={pristine || invalid}>
                       {isLogIn ? 'Войти' : 'Регистрация'}
                     </SubmitButton>
