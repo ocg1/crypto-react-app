@@ -15,6 +15,9 @@ import {
   removeTokenFromLocalStorage,
 } from 'localStorage';
 import requestFlow from './request';
+import { fetchWalletRequest } from "ducks/wallet";
+import { fetchUserTransactionsRequest } from 'ducks/transactions';
+import { getUserInfoRequest } from 'ducks/user';
 
 export function* authFlow() {
   while (true) {
@@ -33,6 +36,9 @@ export function* authFlow() {
       if (action.type === sessionSuccess.toString()) {
         yield put(createSession(action.payload));
         yield call(Api.setTokenApi, action.payload);
+        yield put(fetchWalletRequest())
+        yield put(fetchUserTransactionsRequest())
+        yield put(getUserInfoRequest())
       } else {
         continue;
       }

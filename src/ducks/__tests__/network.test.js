@@ -31,7 +31,7 @@ describe('Network reducers', () => {
   });
 
   describe('#networkError', () => {
-    const error = { response: { data: { message: faker.lorem.word() } } };
+    const error = { data: { message: faker.lorem.word() } };
 
     it('should be set error from payload', () => {
       const state = network(INIT_STATE, networkError(error));

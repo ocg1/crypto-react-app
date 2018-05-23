@@ -5,11 +5,14 @@ import AppRouter from './AppRouter';
 import Login from '../Login';
 
 jest.mock('../Login', () => () => 'Login Component');
+jest.mock('../PrivateRoute', () => () => 'PrivateRoute Component');
+
+const INIT_PROPS = { isAuthorized: false };
 
 describe('AppRouter', () => {
   const wrapper = mount(
     <MemoryRouter initialEntries={['/']}>
-      <AppRouter />
+      <AppRouter {...INIT_PROPS} />
     </MemoryRouter>,
   );
 
@@ -29,8 +32,19 @@ describe('AppRouter', () => {
           expect(foundComponent.exists()).toBeTruthy();
         });
 
-        describe.skip('PrivateRoute');
-      })
-    })
+        describe('PrivateRoute', () => {
+          const wrapper = mount(
+            <MemoryRouter initialEntries={['/exchange/btc']}>
+              <AppRouter {...{INIT_PROPS, isAuthorized: true}} />
+            </MemoryRouter>,
+          );
+
+          it('should be contains component with private route path', () => {
+            const foundComponent = wrapper.findWhere(component => component.props().path === '/exchange/:currency')
+            expect(foundComponent.exists()).toBeTruthy()
+          })
+        });
+      });
+    });
   });
 });

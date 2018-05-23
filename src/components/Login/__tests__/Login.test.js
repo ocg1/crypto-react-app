@@ -3,8 +3,11 @@ import { Login } from '../Login';
 import LoginForm from '../LoginForm';
 import Particles from 'react-particles-js';
 
+const newSession = jest.fn();
+const newUser = jest.fn();
+
 describe('Component Login', () => {
-  const wrapper = shallow(<Login />);
+  const wrapper = shallow(<Login {...{ newSession, newUser }} />);
   const instance = wrapper.instance();
 
   describe('component contains', () => {
@@ -64,12 +67,20 @@ describe('Component Login', () => {
     }); // #handleValidate
 
     describe('#handleSubmit', () => {
+      const payload = { email: faker.internet.email(), password: faker.internet.password() };
+
       describe('if attribute isLogIn is true', () => {
-        it('should be calls #createSession');
+        it('should be calls #createSession', () => {
+          instance.handleSubmit({...payload, isLogIn: true})
+          expect(newSession).toBeCalled()
+        });
       });
 
       describe('if attribute isLogIn is false', () => {
-        it('should be calls #createUser');
+        it('should be calls #createUser', () => {
+          instance.handleSubmit({ ...payload, isLogIn: false });
+          expect(newUser).toBeCalled();
+        });
       });
     }); // #handleSubmit
   });

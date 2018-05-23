@@ -38,7 +38,7 @@ export class Login extends PureComponent {
 
   render() {
     const { errors, isFailed, isAuthorized } = this.props;
-    if (isAuthorized) return <Redirect to='/exchange' />
+    if (isAuthorized) return <Redirect to='/exchange/btc' />
 
     return (
       <Fragment>

@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { selectIsAuthorizedFrom } from "ducks/signIn";
+import Header from '../Header'
+import Footer from '../Footer'
 
-const privateRoute = ({ path, component, isAuthorized }) => {
-  if (isAuthorized) return <Route path={path} component={component} />;
+const privateRoute = ({ isAuthorized, path, ...props }) => {
+  const Component = props.component
 
-  return <Redirect to="/" />;
+  if (!isAuthorized) return <Redirect to="/" />;
+
+  return <Route path={path} render={() => (
+    <Fragment>
+      <Header />
+      <Component {...props.computedMatch.params} />
+      <Footer />
+    </Fragment>
+  )} />;
 }
 
 privateRoute.propTypes = {

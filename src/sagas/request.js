@@ -5,7 +5,8 @@ import { destroySession } from 'ducks/signIn';
 export default function*(fn, args) {
   try {
     const response = yield call(fn, args);
-    if (yield select(selectIsNetworkErrorPresentFrom)) yield put(clearNetworkErrors());
+    const error = yield select(selectIsNetworkErrorPresentFrom)
+    if (error) yield put(clearNetworkErrors());
     return response;
   } catch (error) {
     yield put(networkError(error));

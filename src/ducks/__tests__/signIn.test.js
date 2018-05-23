@@ -1,6 +1,6 @@
-import auth, { createSession, destroySession } from '../signin';
+import auth, { createSession, destroySession } from '../signIn';
 
-const INIT_STATE = { isAuthorized: false };
+const INIT_STATE = { isAuthorized: false, error: null, isFailed: false };
 
 describe('Auth reducers', () => {
   describe('initial state', () => {

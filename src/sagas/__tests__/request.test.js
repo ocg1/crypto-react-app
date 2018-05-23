@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { getIsNetworkErrorPresent, clearNetworkErrors, networkError } from 'ducks/network';
+import { selectIsNetworkErrorPresentFrom, clearNetworkErrors, networkError } from 'ducks/network';
 import { destroySession } from 'ducks/signIn';
 import requestFlow from '../request';
 
@@ -16,7 +16,7 @@ describe('Request saga', () => {
       });
 
       it('should be select #isNetWorkErrorPresent from state', () => {
-        expect(sagaFlow.next().value).toEqual(select(getIsNetworkErrorPresent));
+        expect(sagaFlow.next().value).toEqual(select(selectIsNetworkErrorPresentFrom));
       });
 
       describe('if isNetworkErrorPresent is true, than', () => {
@@ -28,7 +28,7 @@ describe('Request saga', () => {
       });
     });
     describe('with errors', () => {
-      const error = { response: { status: 401 } };
+      const error = { status: 401 };
 
       it('should be put #networkError with erorr', () => {
         expect(sagaFlow.throw(error).value).toEqual(put(networkError(error)));
