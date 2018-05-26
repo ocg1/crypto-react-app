@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Particles from 'react-particles-js';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -41,7 +41,7 @@ export class Login extends PureComponent {
     if (isAuthorized) return <Redirect to='/exchange/btc' />
 
     return (
-      <Fragment>
+      <main>
         <LoginForm
           {...{
             handleSubmit: this.handleSubmit,
@@ -51,7 +51,7 @@ export class Login extends PureComponent {
           }}
         />
         <Particles params={particlesParams} height="100vh" />
-      </Fragment>
+      </main>
     );
   }
 }

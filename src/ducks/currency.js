@@ -68,6 +68,16 @@ const isEthLoading = handleActions(
   false,
 );
 
+const isLoading = handleActions(
+  {
+    [fetchBtcRequest]: () => true,
+    [fetchEthRequest]: () => true,
+    [fetchBtcSuccess]: () => false,
+    [fetchEthSuccess]: () => false,
+  },
+  false,
+);
+
 const selected = handleActions(
   {
     [selectBtc]: () => 'btc',
@@ -146,6 +156,8 @@ const selectCurrentCurrencyPurchasesFrom = state => {
   return currencyData ? Object.values(currencyData).map(({ mts, purchase }) => [mts, purchase]) : [];
 };
 
+const selectIsLoading = ({ currency }) => currency.isLoading
+
 export {
   buyCurrencyFailure,
   buyCurrencyRequest,
@@ -166,10 +178,11 @@ export {
   selectEth,
   selectCurrentCurrencySellsFrom,
   selectCurrentCurrencyPurchasesFrom,
+  selectIsLoading,
   selectOffset,
   sellCurrencyRequest,
   sellCurrencySuccess,
   sellCurrencyFailure,
 };
 
-export default combineReducers({ btc, eth, offset, isBtcLoading, isEthLoading, selected, error });
+export default combineReducers({ btc, eth, offset, isBtcLoading, isEthLoading, selected, error, isLoading });

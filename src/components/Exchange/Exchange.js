@@ -17,18 +17,20 @@ import {
   WalletInputInteger,
   WalletCointSign,
 } from './Exchange.styles';
+import privateApp from "../PrivateApp";
+
 
 const COIN_SIGN_MAP = { usd: '$', btc: 'BTC', eth: 'ETH' };
 
 class Exchange extends PureComponent {
   componentDidMount() {
-    const { currency, selectBtc, selectEth } = this.props;
+    const { match: { params: { currency } }, selectBtc, selectEth } = this.props;
     currency === 'btc' ? selectBtc() : selectEth();
   }
 
   componentDidUpdate(prevProps) {
-    const prevCurrency = prevProps.currency;
-    const currency = this.props.currency;
+    const { match: { params: { currency } } } = this.props;
+    const { match: { params: { currency: prevCurrency } } } = prevProps;
 
     if (currency !== prevCurrency) {
       currency === 'btc' ? this.props.selectBtc() : this.props.selectEth();
@@ -84,4 +86,4 @@ const mapStateToProps = state => ({
   wallet: selectWalletFrom(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Exchange);
+export default connect(mapStateToProps, mapDispatchToProps)(privateApp(Exchange));

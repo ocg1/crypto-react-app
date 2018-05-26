@@ -7,6 +7,11 @@ const MainExchange = styled.main`
   min-height: calc(100% - 80px);
   margin-bottom: -100px;
   background-color: #f2f3f5;
+  &:after {
+    content: '';
+    display: block;
+    height: 100px;
+  }
 `;
 
 const MainExchangeWrapper = styled.div`

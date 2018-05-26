@@ -18,6 +18,7 @@ import requestFlow from './request';
 import { fetchWalletRequest } from "ducks/wallet";
 import { fetchUserTransactionsRequest } from 'ducks/transactions';
 import { getUserInfoRequest } from 'ducks/user';
+import { createUser } from 'ducks/signUp';
 
 export function* authFlow() {
   while (true) {
@@ -28,7 +29,9 @@ export function* authFlow() {
       if (token) {
         yield fork(sagaAuthorizeWithToken, token);
       } else {
-        const { payload } = yield take(newSession);
+        let { payload, type } = yield take([createUser, newSession]);
+        if (type === createUser.toString()) continue;
+
         yield fork(sagaAuthorizeWithCredentials, payload);
       }
 

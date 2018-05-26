@@ -9,11 +9,11 @@ export function* signUpWatch() {
   yield takeEvery(newUser, signUpFlow);
 }
 
-function* signUpFlow(payload) {
+function* signUpFlow({ payload }) {
   try {
     const { data } = yield call(requestFlow, registration, payload);
-    yield put(createUser(data));
-    yield call(setTokenToLocalStorage, data)
+    yield call(setTokenToLocalStorage, data.jwt)
+    yield put(createUser(data.jwt));
   } catch (error) {
     yield put(userFailure(error));
   }

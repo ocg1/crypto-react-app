@@ -6,12 +6,10 @@ import PrivateRoute from "../PrivateRoute";
 import Exchange from '../Exchange';
 
 const appRouter = () => (
-  <main>
-    <Switch>
-      <Route path="/" exact component={Login} />
-      <PrivateRoute path="/exchange/:currency" component={Exchange} />
-    </Switch>
-  </main>
+  <Switch>
+    <Route path="/" exact component={Login} />
+    <PrivateRoute path="/exchange/:currency" component={Exchange} />
+  </Switch>
 );
 
 export default withRouter(appRouter);

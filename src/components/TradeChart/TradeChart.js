@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
-import { LineChart } from 'react-easy-chart';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import moment from "moment";
+import Spinner from 'react-svg-spinner';
 
 import {
-  getOffset,
   selectOffset,
-  selectCurrentCurrencySellsFrom,
-  selectCurrentCurrencyPurchasesFrom,
+  selectIsLoading,
+  getOffset,
 } from 'ducks/currency';
+import LineChart from "./LineChart";
 
 const OFFSETS = { '2h': '2ч', '4h': '4ч', '8h': '8ч', '1d': '1д', '7d': '7д' };
 
@@ -46,18 +45,14 @@ const ButtonOffset = styled.button`
   padding: 2px 16px;
 `;
 
-
-
 class TradeChart extends PureComponent {
   handleOffsetClick = key => {
     this.props.selectOffset(key);
   };
 
   render() {
-    const { sell, purchase, offset } = this.props;
-
-    return (
-      <TradeChartContainer>
+    const { isLoading, offset } = this.props;
+    return <TradeChartContainer>
         <h2>Окно графика</h2>
         <TradeChartTable>
           <TradeChartOffsets>
@@ -71,35 +66,16 @@ class TradeChart extends PureComponent {
               </ButtonOffset>
             ))}
           </TradeChartOffsets>
-          <LineChart
-            lineColors={['blue', 'red']}
-            axes
-            grid
-            verticalGrid
-            interpolate={'cardinal'}
-            xType={'time'}
-            datePattern={'%d-%m %H:%M'}
-            width={750}
-            height={400}
-            style={{ '.axis path': { stroke: '#EDF0F1' } }}
-            data={[
-              sell.map(([date, value]) => ({ x: moment(date).format('DD-MM HH:mm'), y: value })),
-              purchase.map(([date, value]) => ({
-                x: moment(date).format('DD-MM HH:mm'),
-                y: value,
-              })),
-            ]}
-          />
+
+          {isLoading ? <Spinner size="16px" color="#adadad" gap={5} /> : <LineChart />}
         </TradeChartTable>
-      </TradeChartContainer>
-    );
+      </TradeChartContainer>;
   }
 }
 
 const mapStateToProps = state => ({
-  sell: selectCurrentCurrencySellsFrom(state),
-  purchase: selectCurrentCurrencyPurchasesFrom(state),
-  offset: getOffset(state),
+  isLoading: selectIsLoading(state),
+  offset: getOffset(state)
 });
 
 const mapDispatchToProps = {
