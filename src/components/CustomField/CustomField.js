@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { Error } from '../Login/Login.styles'
+import LoginError from "../Login/LoginError";
 
 const FieldWrapper = styled.div`
   position: relative;
@@ -34,13 +34,13 @@ const FieldIcon = styled.span`
   background-image: url(${({ url }) => url});
 `;
 
-const customField = ({ input, type, placeholder, iconUrl, meta }) => {
-  return <FieldWrapper>
+const customField = ({ input, type, placeholder, iconUrl, meta }) => (
+  <FieldWrapper>
     <FieldIcon url={iconUrl} />
     <input {...input} placeholder={placeholder} type={type} />
-    { meta.touched && meta.error && <Error>{ meta.error }</Error> }
+    { meta.touched && <LoginError error={meta.error} /> }
   </FieldWrapper>
-};
+);
 
 customField.propTypes = {
   input: PropTypes.shape({

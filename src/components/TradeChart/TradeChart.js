@@ -3,12 +3,9 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Spinner from 'react-svg-spinner';
 
-import {
-  selectOffset,
-  selectIsLoading,
-  getOffset,
-} from 'ducks/currency';
-import LineChart from "./LineChart";
+import { selectOffset, selectIsLoading, getOffset } from 'ducks/currency';
+import LineChart from './LineChart';
+import OffsetButton from '../OffsetButton';
 
 const OFFSETS = { '2h': '2ч', '4h': '4ч', '8h': '8ч', '1d': '1д', '7d': '7д' };
 
@@ -35,16 +32,6 @@ const TradeChartOffsets = styled.div`
   padding-bottom: 10px;
 `;
 
-const ButtonOffset = styled.button`
-  margin: 0 4px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  background-color: ${props => (props.selected ? '#6AB4DD' : 'transparent')};
-  color: ${props => (props.selected ? 'white' : '#9998a1')};
-  padding: 2px 16px;
-`;
-
 class TradeChart extends PureComponent {
   handleOffsetClick = key => {
     this.props.selectOffset(key);
@@ -52,30 +39,31 @@ class TradeChart extends PureComponent {
 
   render() {
     const { isLoading, offset } = this.props;
-    return <TradeChartContainer>
+    return (
+      <TradeChartContainer>
         <h2>Окно графика</h2>
         <TradeChartTable>
           <TradeChartOffsets>
             {Object.keys(OFFSETS).map(key => (
-              <ButtonOffset
+              <OffsetButton
                 key={key}
-                selected={offset === key}
-                onClick={this.handleOffsetClick.bind(this, key)}
+                {...{ offsetKey: key, selectedOffset: offset, handleClick: this.handleOffsetClick }}
               >
                 {OFFSETS[key]}
-              </ButtonOffset>
+              </OffsetButton>
             ))}
           </TradeChartOffsets>
 
           {isLoading ? <Spinner size="16px" color="#adadad" gap={5} /> : <LineChart />}
         </TradeChartTable>
-      </TradeChartContainer>;
+      </TradeChartContainer>
+    );
   }
 }
 
 const mapStateToProps = state => ({
   isLoading: selectIsLoading(state),
-  offset: getOffset(state)
+  offset: getOffset(state),
 });
 
 const mapDispatchToProps = {
